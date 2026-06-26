@@ -44,8 +44,13 @@ def encode_sentence_to_ids(sentence, token_to_id, unk_token='<unk>'):
 def decode_ids_to_tokens(ids, id_to_token):
     return [id_to_token[id_] for id_ in ids]
 
-# Step 5 - pad_id_sequence (not yet solved)
-# TODO: implement
+# Step 5 - pad_id_sequence
+def pad_id_sequence(ids, max_len, pad_id):
+    l = len(ids)
+    if l >= max_len:
+        return ids[:max_len]
+    else:
+        return ids + [pad_id]*(max_len-l)
 
 # Step 6 - stack_padded_sequences_to_batch (not yet solved)
 # TODO: implement
