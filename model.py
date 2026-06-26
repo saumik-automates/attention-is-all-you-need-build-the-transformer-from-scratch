@@ -8,19 +8,19 @@ import numpy as np
 
 # Step 1 - build_token_to_id_vocab
 def build_token_to_id_vocab(sentences, specials=('<pad>', '<bos>', '<eos>', '<unk>')):
-    token_id_dict = {}
+    token_to_id = {}
     
     for i, token in enumerate(specials):
-        token_id_dict[token] = i
+        token_to_id[token] = i
     
     idx = len(specials)
     for token in " ".join(sentences).split():
-        if token in token_id_dict:
+        if token in token_to_id:
             continue
-        token_id_dict[token] = idx
+        token_to_id[token] = idx
         idx += 1
 
-    return token_id_dict
+    return token_to_id
 
 # Step 2 - build_id_to_token_vocab (not yet solved)
 # TODO: implement
