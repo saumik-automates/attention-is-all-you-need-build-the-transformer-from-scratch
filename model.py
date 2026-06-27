@@ -120,8 +120,12 @@ def build_sinusoidal_positional_encoding(max_len, d_model):
 
     return pe
 
-# Step 13 - add_positional_encoding_to_embeddings (not yet solved)
-# TODO: implement
+# Step 13 - add_positional_encoding_to_embeddings
+import torch
+
+def add_positional_encoding_to_embeddings(embedded_batch, positional_encoding):
+    L = embedded_batch.shape[1]
+    return embedded_batch + positional_encoding[:L, :]
 
 # Step 14 - build_padding_mask (not yet solved)
 # TODO: implement
