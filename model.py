@@ -249,8 +249,14 @@ import torch
 def merge_heads_and_project_output(context, w_o, b_o):
     return apply_linear_projection(merge_heads_back_to_model_dim(context), w_o, b_o)
 
-# Step 31 - assemble_multi_head_attention_forward (not yet solved)
-# TODO: implement
+# Step 31 - assemble_multi_head_attention_forward
+def assemble_multi_head_attention_forward(query, key, value, w_q, w_k, w_v, w_o, num_heads, mask=None):
+    Q = apply_linear_projection(query, w_q, None)
+    K = apply_linear_projection(key, w_k, None)
+    V = apply_linear_projection(value, w_v, None)
+    Qh, Kh, Vh = split_qkv_into_heads(Q, K, V, num_heads)
+    context, _ = multi_head_scaled_dot_product_attention(Qh, Kh, Vh, mask)
+    return merge_heads_and_project_output(context, w_o, None)
 
 # Step 32 - apply_ffn_first_linear_and_relu (not yet solved)
 # TODO: implement
