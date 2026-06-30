@@ -268,8 +268,9 @@ import torch
 def apply_ffn_second_linear(hidden, w2, b2):
     return hidden @ w2 + b2
 
-# Step 34 - position_wise_feed_forward_network (not yet solved)
-# TODO: implement
+# Step 34 - position_wise_feed_forward_network
+def position_wise_feed_forward_network(x, w1, b1, w2, b2):
+    return apply_ffn_second_linear(apply_ffn_first_linear_and_relu(x, w1, b1), w2, b2)
 
 # Step 35 - compute_layer_norm_mean_and_variance (not yet solved)
 # TODO: implement
