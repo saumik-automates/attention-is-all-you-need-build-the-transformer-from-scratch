@@ -339,8 +339,7 @@ import torch
 
 def decoder_layer_cross_attention_sublayer(y, encoder_output, w_q, w_k, w_v, w_o, gamma, beta, num_heads, src_mask):
     y_ca = assemble_multi_head_attention_forward(y, encoder_output, encoder_output, w_q, w_k, w_v, w_o, num_heads, src_mask)
-    return y_ca
-    #return apply_residual_add_and_norm(y, y_ca, gamma, beta)
+    return apply_residual_add_and_norm(y, y_ca, gamma, beta)
 
 # Step 45 - decoder_layer_feed_forward_sublayer (not yet solved)
 # TODO: implement
