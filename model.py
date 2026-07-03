@@ -456,8 +456,45 @@ def init_encoder_layer_parameters(d_model, num_heads, d_ff):
 
     return layer_params
 
-# Step 53 - init_decoder_layer_parameters (not yet solved)
-# TODO: implement
+# Step 53 - init_decoder_layer_parameters
+import torch
+
+def init_decoder_layer_parameters(d_model, num_heads, d_ff):
+
+    layer_params = {}
+
+    # Xavier Normal scale for self-attention weights (fan_in = d_model, fan_out = d_model)
+    scale_attn = math.sqrt(2.0 / (d_model + d_model))
+
+    layer_params["w_q_self"] = (torch.randn((d_model, d_model))*scale_attn).requires_grad_(True)
+    layer_params["w_k_self"] = (torch.randn((d_model, d_model))*scale_attn).requires_grad_(True)
+    layer_params["w_v_self"] = (torch.randn((d_model, d_model))*scale_attn).requires_grad_(True)
+    layer_params["w_o_self"] = (torch.randn((d_model, d_model))*scale_attn).requires_grad_(True)
+
+    layer_params["w_q_cross"] = (torch.randn((d_model, d_model))*scale_attn).requires_grad_(True)
+    layer_params["w_k_cross"] = (torch.randn((d_model, d_model))*scale_attn).requires_grad_(True)
+    layer_params["w_v_cross"] = (torch.randn((d_model, d_model))*scale_attn).requires_grad_(True)
+    layer_params["w_o_cross"] = (torch.randn((d_model, d_model))*scale_attn).requires_grad_(True)
+
+
+    # Xavier Normal scale for FFN layer 1 and 2
+    scale_ffn = math.sqrt(2.0 / (d_model + d_ff))
+    layer_params["w1"] = (torch.randn((d_model, d_ff))*scale_ffn).requires_grad_(True)
+    layer_params["b1"] = torch.zeros((d_ff,), requires_grad=True)
+
+    layer_params["w2"] = (torch.randn((d_ff, d_model))*scale_ffn).requires_grad_(True)
+    layer_params["b2"] = torch.zeros((d_model,), requires_grad=True)
+
+    layer_params["self_gamma"] = torch.ones((d_model,), requires_grad=True)
+    layer_params["self_beta"] = torch.zeros((d_model,), requires_grad=True)
+
+    layer_params["cross_gamma"] = torch.ones((d_model,), requires_grad=True)
+    layer_params["cross_beta"] = torch.zeros((d_model,), requires_grad=True)
+
+    layer_params["ffn_gamma"] = torch.ones((d_model,), requires_grad=True)
+    layer_params["ffn_beta"] = torch.zeros((d_model,), requires_grad=True)
+
+    return layer_params
 
 # Step 54 - init_embedding_and_projection_parameters (not yet solved)
 # TODO: implement
