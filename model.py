@@ -614,8 +614,11 @@ def initialize_adam_optimizer_state(parameter_list):
 
     return out
 
-# Step 65 - update_adam_first_moment (not yet solved)
-# TODO: implement
+# Step 65 - update_adam_first_moment
+import torch
+
+def update_adam_first_moment(m_prev, grad, beta1):
+    return beta1 * m_prev + (1 - beta1) * grad
 
 # Step 66 - update_adam_second_moment (not yet solved)
 # TODO: implement
