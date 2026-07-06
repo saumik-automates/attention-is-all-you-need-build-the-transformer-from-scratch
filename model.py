@@ -609,8 +609,8 @@ def initialize_adam_optimizer_state(parameter_list):
     """Allocate Adam m, v zero buffers and a step counter t=0."""
     out = {"m": [], "v": [], "t":0}
     for param in parameter_list:
-        out["m"].append(torch.zeros_like(param))
-        out["v"].append(torch.zeros_like(param))
+        out["m"].append(torch.zeros_like(param, requires_grad=False))
+        out["v"].append(torch.zeros_like(param, requires_grad=False))
 
     return out
 
