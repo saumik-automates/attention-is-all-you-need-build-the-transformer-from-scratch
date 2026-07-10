@@ -740,8 +740,9 @@ def pick_next_token_by_argmax(final_step_logits):
     """
     return torch.argmax(final_step_logits, axis=1)
 
-# Step 75 - compute_length_penalty (not yet solved)
-# TODO: implement
+# Step 75 - compute_length_penalty
+def compute_length_penalty(sequence_length, alpha):
+    return ((5+sequence_length)/6)**alpha
 
 # Step 76 - compute_candidate_scores (not yet solved)
 # TODO: implement
