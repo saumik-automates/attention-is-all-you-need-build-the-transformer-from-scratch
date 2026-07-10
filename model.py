@@ -750,8 +750,19 @@ import torch
 def compute_candidate_scores(beam_scores, next_token_log_probs):
     return beam_scores.reshape(-1, 1) + next_token_log_probs
 
-# Step 77 - select_top_k_candidates (not yet solved)
-# TODO: implement
+# Step 77 - select_top_k_candidates
+import torch
+
+def select_top_k_candidates(candidate_scores, k):
+    V = candidate_scores.shape[1]
+    scores, topk_indices = torch.topk(candidate_scores.reshape(-1), k)
+    out = {
+            "beam_indices": topk_indices // V,
+            "token_ids": topk_indices % V,
+            "scores": scores
+          }
+
+    return out
 
 # Step 78 - append_tokens_to_beam_sequences (not yet solved)
 # TODO: implement
