@@ -764,8 +764,11 @@ def select_top_k_candidates(candidate_scores, k):
 
     return out
 
-# Step 78 - append_tokens_to_beam_sequences (not yet solved)
-# TODO: implement
+# Step 78 - append_tokens_to_beam_sequences
+import torch
+
+def append_tokens_to_beam_sequences(beam_sequences, beam_indices, token_ids):
+    return torch.hstack((beam_sequences[beam_indices], token_ids.reshape(-1, 1))).to(dtype=torch.long)
 
 # Step 79 - mark_finished_beams (not yet solved)
 # TODO: implement
