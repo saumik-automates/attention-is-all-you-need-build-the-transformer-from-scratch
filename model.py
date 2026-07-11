@@ -776,6 +776,41 @@ import torch
 def mark_finished_beams(token_ids, finished_flags, end_token_id):
     return torch.logical_or(finished_flags, (token_ids == end_token_id))
 
-# Step 80 - select_best_finished_beam (not yet solved)
-# TODO: implement
+# Step 80 - select_best_finished_beam
+import torch
+
+def select_best_finished_beam(finished_sequences, finished_scores, alpha):
+    """
+    Selects the best finished beam sequence based on the length-penalized score.
+    """
+    best_normalized_score = float('-inf')
+    best_sequence = None
+    
+    # Iterate through each sequence and its corresponding raw score
+    for seq, score in zip(finished_sequences, finished_scores):
+        
+        # Safely extract the length depending on whether seq is a list or a Tensor
+        seq_len = seq.shape[0] if isinstance(seq, torch.Tensor) else len(seq)
+        
+        # Calculate the length penalty
+        penalty = compute_length_penalty(seq_len, alpha)
+        
+        # Compute the length-penalized score
+        normalized_score = score / penalty
+        
+        # Update the running best score and sequence
+        if normalized_score > best_normalized_score:
+            best_normalized_score = normalized_score
+            best_sequence = seq
+
+    # Format the winning sequence as a LongTensor
+    if not isinstance(best_sequence, torch.Tensor):
+        best_sequence = torch.tensor(best_sequence, dtype=torch.long)
+    else:
+        best_sequence = best_sequence.clone().detach().to(torch.long)
+        
+    return {
+        "sequence": best_sequence,
+        "score": best_normalized_score
+    }
 
